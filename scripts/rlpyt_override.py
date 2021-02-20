@@ -41,6 +41,9 @@ class GymEnvWrapperFixed(GymEnvWrapper):
             pass
         return EnvStep(obs, r, d, info)
 
+    def seed(self, seed):
+        pass
+
 
 class WarpFrame(gym.ObservationWrapper):
     def __init__(self, env, width=84, height=84, grayscale=True, dict_space_key=None):

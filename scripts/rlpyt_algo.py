@@ -481,12 +481,13 @@ class CategoricalDQN_nce(DQN):
                 target = None
                 # Select the proper NCE loss passed as argument
                 dict_nce = globals()[self.args['nce_loss']](self.agent.model.model,self.states,self.actions,self.returns,self.next_states,self.args,target=target)
-              
+                
                 nce_scores = self.args['lambda_LL'] * dict_nce['nce_L_L'] + self.args['lambda_LG'] * dict_nce['nce_L_G'] + self.args['lambda_GL'] * dict_nce['nce_G_L'] + self.args['lambda_GG'] * dict_nce['nce_G_G']
-                nce_scores_raw = (dict_nce['nce_L_L'] if self.args['lambda_LL'] > 0 else torch.tensor(0.).to(loss_device if loss_device > 0 else 'cpu')).mean()
-                nce_scores_raw += (dict_nce['nce_L_G'] if self.args['lambda_LG'] > 0 else torch.tensor(0.).to(loss_device if loss_device > 0 else 'cpu')).mean()
-                nce_scores_raw += (dict_nce['nce_G_L'] if self.args['lambda_GL'] > 0 else torch.tensor(0.).to(loss_device if loss_device > 0 else 'cpu')).mean()
-                nce_scores_raw += (dict_nce['nce_G_G'] if self.args['lambda_GG'] > 0 else torch.tensor(0.).to(loss_device if loss_device > 0 else 'cpu')).mean()
+                device_ = nce_scores.device
+                nce_scores_raw = (dict_nce['nce_L_L'] if self.args['lambda_LL'] > 0 else torch.tensor(0.).to(device_)).mean()
+                nce_scores_raw += (dict_nce['nce_L_G'] if self.args['lambda_LG'] > 0 else torch.tensor(0.).to(device_)).mean()
+                nce_scores_raw += (dict_nce['nce_G_L'] if self.args['lambda_GL'] > 0 else torch.tensor(0.).to(device_)).mean()
+                nce_scores_raw += (dict_nce['nce_G_G'] if self.args['lambda_GG'] > 0 else torch.tensor(0.).to(device_)).mean()
                 if self.prioritized_replay:
                     nce_device = nce_scores.get_device()
                     if nce_device < 0:

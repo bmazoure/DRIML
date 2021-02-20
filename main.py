@@ -25,9 +25,7 @@ from rlpyt.utils.launching.affinity import make_affinity, quick_affinity_code, a
 #   ProcGen  #
 ##############
 
-python main_procgen.py  --lambda_LL "0" --lambda_GL "0" --lambda_LG "0" --lambda_GG "1" --experiment-name "test" --env-name "procgen-bigfish-v0.500" \
-                --n_step-return "7" --nce-batch-size "256" --horizon "10000" --algo "c51" --n-cpus "8" --n-gpus "1" --weight-save-interval "-1" --n_step-nce "-2" \
-                --frame_stack "3" --nce_loss "InfoNCE_action_loss" --log-interval-steps=1000 --mode "serial"
+python main.py  --lambda_LL "0" --lambda_GL "0" --lambda_LG "0" --lambda_GG "1" --experiment-name "test" --env-name "procgen-bigfish-v0.500" --n_step-return "7" --nce-batch-size "256" --horizon "10000" --algo "c51" --n-cpus "8" --n-gpus "1" --weight-save-interval "-1" --n_step-nce "-2" --frame_stack "3" --nce_loss "InfoNCE_action_loss" --log-interval-steps=1000 --mode "serial"
 """
 
 def build_and_train(args,game="", run_ID=0,config=None):
